@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f4f4;
+        }
+
+        #form {
+            padding: 3rem;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        #form label {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+            color: #333;
+
+        }
+
+        #form input[type="text"],
+        #form input[type="password"] {
+            width: 100%;
+            padding: 0.7rem;
+            margin-bottom: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        #form input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        h2 {
+            text-align: center;
+
+        }
+
+        #submit {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        #submit:hover {
+            background-color: #0056b3;
+        }
+
+        span {
+            color: red;
+            font-size: 0.85rem;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="form">
+        <h2>Password Verification</h2>
+        <label>Username</label>
+        <input type="text" placeholder="enter your name.." id="name">
+        <span class="nameerror">Enter your name</span><br>
+        <span class="nameerror1">Name should contain only letters</span><br>
+
+        <label>Password</label>
+        <input type="password" placeholder="enter your Password" id="Password">
+        <span class="passerror">Enter your Password</span><br>
+        <span class="passerror1">Password must be at least 8 characters, include uppercase, lowercase, number, and
+            special character.</span><br>
+
+        <label>Confirm Password</label>
+        <input type="password" placeholder="Re-type Password" id="c-password">
+        <span class="cpasserror">Type the confirm Password</span><br>
+        <span class="cpasserror1">Password and Confirm Password do not match</span><br>
+
+        <input type="submit" id="submit">
+    </form>
+    <script>
+        const form = document.getElementById("form");
+        const submit = document.getElementById("submit");
+    
+        const name = document.getElementById("name");
+        const password = document.getElementById("Password");
+        const cpassword = document.getElementById("c-password");
+    
+        const nameError = document.querySelector(".nameerror");
+        const nameError1 = document.querySelector(".nameerror1");
+        const passError = document.querySelector(".passerror");
+        const passError1 = document.querySelector(".passerror1");
+        const cpassError = document.querySelector(".cpasserror");
+        const cpassError1 = document.querySelector(".cpasserror1");
+    
+        const nameregx = /^[a-zA-Z]+$/;
+        const passregx = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+    
+        // Hide all error messages
+        function hideErrors() {
+            nameError.style.display = "none";
+            nameError1.style.display = "none";
+            passError.style.display = "none";
+            passError1.style.display = "none";
+            cpassError.style.display = "none";
+            cpassError1.style.display = "none";
+        }
+    
+        // Main validation
+        submit.addEventListener("click", function (event) {
+            event.preventDefault();
+            hideErrors(); // Clear all errors on every submit click
+    
+            let valid = true;
+    
+            // Username validation
+            if (name.value.trim() === "") {
+                nameError.style.display = "inline";
+                valid = false;
+            } else if (!nameregx.test(name.value.trim())) {
+                nameError1.style.display = "inline";
+                valid = false;
+            }
+    
+            // Password validation
+            if (password.value.trim() === "") {
+                passError.style.display = "inline";
+                valid = false;
+            } else if (!passregx.test(password.value)) {
+                passError1.style.display = "inline";
+                valid = false;
+            }
+    
+            // Confirm Password
+            if (cpassword.value.trim() === "") {
+                cpassError.style.display = "inline";
+                valid = false;
+            } else if (password.value !== cpassword.value) {
+                cpassError1.style.display = "inline";
+                valid = false;
+            }
+    
+            // Final Success
+            if (valid) {
+                alert("Submitted Successfully!!!!");
+                form.reset();
+            }
+        });
+    
+        // Optional: hide errors as user types (real-time UX)
+        name.addEventListener("input", hideErrors);
+        password.addEventListener("input", hideErrors);
+        cpassword.addEventListener("input", hideErrors);
+    </script>
+    
+    
+</body>
+
+</html>
